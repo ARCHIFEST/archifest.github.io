@@ -86,39 +86,3 @@ footer {
 
 
 
-
-:root { --ig-maxw: 560px; --dot: 10px; --gap: 10px; --dur: 9s; }
-
-.ig-row{ width:100%; grid-column:1 / -1; margin:24px 0; }
-.ig-wrap{ max-width: var(--ig-maxw); margin: 0 auto; padding: 0 12px; }
-
-.ig-stage{ position:relative; }
-.ig-frame{ position:relative; overflow:hidden; display:block; margin:0 auto;
-  max-width: var(--ig-maxw); width:100%; }
-
-.ig-slide{
-  position:absolute; inset:0; opacity:0; visibility:hidden;
-  transition:opacity .35s ease;
-}
-.ig-slide.active.ready{ position:relative; opacity:1; visibility:visible; }
-
-.ig-dots{ display:flex; justify-content:center; gap:var(--gap); margin-top:12px; }
-.ig-dot{
-  position:relative; width: calc(var(--dot) + 12px); height: calc(var(--dot) + 12px);
-  border-radius:50%; border:none; background:#f0f0f0; cursor:pointer;
-  display:grid; place-items:center; padding:0;
-}
-.ig-dot i{
-  display:block; width:var(--dot); height:var(--dot);
-  border-radius:50%; background:#bbb;
-}
-.ig-dot.active{ background: conic-gradient(#111 var(--angle,0deg), #e9e9e9 0); }
-.ig-dot.active i{ background:#111; }
-
-.ig-dot.active.animate{ animation: igprogress var(--dur) linear forwards; }
-@keyframes igprogress{ from{ --angle:0deg; } to{ --angle:360deg; } }
-
-@media (max-width:420px){
-  :root { --ig-maxw: 94vw; --dot: 9px; --gap: 8px; }
-  .ig-wrap{ padding:0 8px; }
-}
