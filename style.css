@@ -84,3 +84,9 @@ footer {
   animation: fadeInUp 0.6s ease forwards;
 }
 
+#instagram {
+  padding: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
