@@ -80,7 +80,148 @@
         </p>
       </div>
 
+<section id="ig-viewer" class="ig-viewer" aria-label="Instagram prikaz">
+  <button id="ig-prev" class="ig-btn" aria-label="Prethodni">‹</button>
+  <div class="ig-stage">
+    <div id="ig-frame" class="ig-frame">
+      <div id="slotA" class="ig-slide"></div>
+      <div id="slotB" class="ig-slide"></div>
+    </div>
+    <div id="ig-dots" class="ig-dots" role="tablist" aria-label="Navigacija objavama"></div>
+  </div>
+  <button id="ig-next" class="ig-btn" aria-label="Sljedeći">›</button>
+</section>
 
+<script>
+  // ✅ ČISTI permalinks (bez ?utm i ?img_index)
+  const IG_POSTS = [
+    "https://www.instagram.com/p/DNi39eBIJHB/",
+    "https://www.instagram.com/p/DLDQ3F_y-Hf/",
+    "https://www.instagram.com/p/DLAlNeby99y/"
+  ];
+
+  // Učitaj Instagram embed skriptu jednom (https)
+  (function loadEmbed(){
+    if (window.instgrm && window.instgrm.Embeds) return;
+    const s = document.createElement('script');
+    s.src = "https://www.instagram.com/embed.js";
+    s.async = true;
+    document.head.appendChild(s);
+  })();
+
+  let ix = 0, timer = null, activeSlot = 'A';
+  const frame = document.getElementById('ig-frame');
+  const slotA = document.getElementById('slotA');
+  const slotB = document.getElementById('slotB');
+  const dotsEl = document.getElementById('ig-dots');
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    IG_POSTS.forEach((_, i)=>{
+      const b = document.createElement('button');
+      b.className = 'ig-dot';
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Objava ' + (i+1));
+      b.onclick = ()=>{ stopAuto(); render(i, true); startAuto(); };
+      dotsEl.appendChild(b);
+    });
+    setActiveDot(0);
+  }
+  function setActiveDot(i){
+    [...dotsEl.children].forEach((el, k)=>el.classList.toggle('active', k===i));
+  }
+
+  function buildEmbed(permalink){
+    const wrap = document.createElement('blockquote');
+    wrap.className = "instagram-media";
+    wrap.setAttribute("data-instgrm-permalink", permalink);
+    wrap.setAttribute("data-instgrm-version","14");
+    // ⚠️ NEMA data-instgrm-captioned → bez opisa
+    wrap.style.cssText = "margin:auto;max-width:540px;width:100%";
+    // fallback link
+    const a = document.createElement('a');
+    a.href = permalink; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "Otvori objavu na Instagramu";
+    a.style.cssText = "display:block;text-align:center;padding:10px 0";
+    wrap.appendChild(a);
+    return wrap;
+  }
+
+  function processEmbeds(){
+    if (window.instgrm && window.instgrm.Embeds) {
+      window.instgrm.Embeds.process();
+    }
+  }
+
+  function render(nextIndex, instant=false){
+    const prevSlot = activeSlot === 'A' ? slotA : slotB;
+    const nextSlot = activeSlot === 'A' ? slotB : slotA;
+    ix = (nextIndex + IG_POSTS.length) % IG_POSTS.length;
+    setActiveDot(ix);
+
+    nextSlot.innerHTML = '';
+    nextSlot.appendChild(buildEmbed(IG_POSTS[ix]));
+    nextSlot.classList.add('preload');
+    nextSlot.classList.remove('active');
+
+    processEmbeds();
+
+    requestAnimationFrame(()=>{
+      nextSlot.classList.remove('preload');
+      prevSlot.classList.remove('active');
+      nextSlot.classList.add('active');
+      activeSlot = (activeSlot === 'A') ? 'B' : 'A';
+    });
+  }
+
+  function startAuto(){
+    stopAuto();
+    timer = setInterval(()=>render(ix+1), 9000); // 9s
+  }
+  function stopAuto(){
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  document.getElementById('ig-prev').onclick = ()=>{ stopAuto(); render(ix-1); startAuto(); };
+  document.getElementById('ig-next').onclick = ()=>{ stopAuto(); render(ix+1); startAuto(); };
+
+  const viewer = document.getElementById('ig-viewer');
+  viewer.addEventListener('mouseenter', stopAuto);
+  viewer.addEventListener('mouseleave', startAuto);
+
+  buildDots();
+  render(0, true);
+  startAuto();
+</script>
+
+<style>
+  :root { --ig-maxw: 620px; --ig-btn: 44px; --ig-gap: 10px; }
+
+  .ig-viewer{
+    display:grid;
+    grid-template-columns:var(--ig-btn) 1fr var(--ig-btn);
+    align-items:center; gap:var(--ig-gap);
+    max-width:var(--ig-maxw); margin:24px auto;
+  }
+  .ig-btn{
+    height:var(--ig-btn); width:var(--ig-btn);
+    border:1px solid #ddd; border-radius:12px; background:#fff;
+    font-size:22px; cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .ig-btn:hover{ background:#f8f8f8; transform:scale(1.05); }
+
+  .ig-stage{ position:relative; }
+  .ig-frame{ position:relative; overflow:hidden; }
+  .ig-slide{
+    position:absolute; inset:0; opacity:0; transition:opacity .4s ease;
+  }
+  .ig-slide.active{ position:relative; opacity:1; }
+  .ig-dots{ display:flex; justify-content:center; gap:8px; margin-top:10px; }
+  .ig-dot{ width:8px; height:8px; border-radius:50%; border:none; background:#ddd; cursor:pointer; }
+  .ig-dot.active{ background:#111; }
+</style>
     
     </section>
   </main>
