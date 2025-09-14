@@ -27,4 +27,44 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal').forEach((el) => {
     observer.observe(el);
   });
+
+  const slider = document.querySelector('.instagram-slider');
+  if (slider) {
+    const slides = slider.querySelectorAll('.slides .slide');
+    let current = 0;
+    let intervalId;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function startAutoSlide() {
+      intervalId = setInterval(() => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }, 10000);
+    }
+
+    function resetAutoSlide() {
+      clearInterval(intervalId);
+      startAutoSlide();
+    }
+
+    showSlide(current);
+    startAutoSlide();
+
+    slider.querySelector('.prev').addEventListener('click', () => {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+      resetAutoSlide();
+    });
+
+    slider.querySelector('.next').addEventListener('click', () => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+      resetAutoSlide();
+    });
+  }
 });
