@@ -27,28 +27,4 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal').forEach((el) => {
     observer.observe(el);
   });
-
-  const slider = document.querySelector('.instagram-slider');
-  if (slider) {
-    const slides = slider.querySelectorAll('.slides blockquote');
-    let current = 0;
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-    }
-
-    showSlide(current);
-
-    slider.querySelector('.prev').addEventListener('click', () => {
-      current = (current - 1 + slides.length) % slides.length;
-      showSlide(current);
-    });
-
-    slider.querySelector('.next').addEventListener('click', () => {
-      current = (current + 1) % slides.length;
-      showSlide(current);
-    });
-  }
 });
