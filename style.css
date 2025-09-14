@@ -86,7 +86,12 @@ footer {
 
 #instagram {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem 0;
+}
+
+#instagram h2 {
+  margin-bottom: 1rem;
 }
 
