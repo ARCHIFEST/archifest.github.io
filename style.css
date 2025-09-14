@@ -84,3 +84,22 @@ footer {
   animation: fadeInUp 0.6s ease forwards;
 }
 
+#instagram {
+  padding: 2rem 0;
+}
+
+.instagram-gallery {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.instagram-card {
+  flex: 0 0 100%;
+  max-width: 540px;
+  scroll-snap-align: center;
+  margin: 0 auto;
+}
+
