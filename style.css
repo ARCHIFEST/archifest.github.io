@@ -83,3 +83,38 @@ footer {
 .reveal.animate {
   animation: fadeInUp 0.6s ease forwards;
 }
+
+/* Instagram slider styles */
+.instagram-slider {
+  position: relative;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.instagram-slider .slides blockquote {
+  display: none;
+}
+
+.instagram-slider .slides blockquote.active {
+  display: block;
+}
+
+.instagram-slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.instagram-slider .prev {
+  left: 10px;
+}
+
+.instagram-slider .next {
+  right: 10px;
+}
