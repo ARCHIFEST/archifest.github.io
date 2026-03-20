@@ -58,6 +58,18 @@ section.services {
   transform: translateY(-5px);
 }
 
+
+.seo-block {
+  border-top: 1px solid #ddd;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+}
+
+.seo-block h2 {
+  margin-bottom: 1rem;
+}
+
 footer {
   text-align: center;
   padding: 2rem;
