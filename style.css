@@ -58,6 +58,14 @@ section.services {
   transform: translateY(-5px);
 }
 
+.featured-service {
+  border-color: rgba(0, 37, 63, 0.45);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 243, 250, 0.95));
+}
+
+.featured-service h2 {
+  color: #004a78;
+}
 
 .seo-block {
   border-top: 1px solid #ddd;
